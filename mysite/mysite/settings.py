@@ -28,7 +28,6 @@ SECRET_KEY = 'django-insecure-mu6&#l!3&-w#_3^v)(!@*o$0b=g_!&!0t8aym1@8v^cg_lx_em
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED-ORIGINS = ['https://*.on-acorn.io', 'https://*on-acorn.io']
 
 
 # Application definition
@@ -80,10 +79,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'patent_data',          
+        'USER': 'postgres',         
+        'PASSWORD': 'sukhreen',  
+        'HOST': 'localhost',             
+        'PORT': '5432',                  
     }
 }
+
 
 
 # Password validation
