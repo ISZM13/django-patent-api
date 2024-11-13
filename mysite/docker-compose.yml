@@ -1,14 +1,14 @@
 services:
-  # Web service (Django API)
+
+  
   web:
     build: .
-    command: gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+    command: sh -c "python manage.py migrate && python manage.py load_patents && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
+      - ./staticfiles:/app/staticfiles  
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     environment:
       - DEBUG=False
       - DJANGO_DB_HOST=db
@@ -16,7 +16,9 @@ services:
       - DJANGO_DB_NAME=patent_data
       - DJANGO_DB_USER=postgres
       - DJANGO_DB_PASSWORD=sukhreen
-      - DJANGO_SECRET_KEY=django-insecure-mu6&#l!3&-w#_3^v)(!@*o$0b=g_!&!0t8aym1@8v^cg_lx_em
+      - DJANGO_SECRET_KEY='django-insecure-mu6&#l!3&-w#_3^v)(!@*o$0b=g_!&!0t8aym1@8v^cg_lx_em'
+    depends_on:
+      - db
     networks:
       - my_network
 
