@@ -1,0 +1,42 @@
+services:
+  # Web service (Django API)
+  web:
+    build: .
+    command: gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=False
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_NAME=patent_data
+      - DJANGO_DB_USER=postgres
+      - DJANGO_DB_PASSWORD=sukhreen
+      - DJANGO_SECRET_KEY=django-insecure-mu6&#l!3&-w#_3^v)(!@*o$0b=g_!&!0t8aym1@8v^cg_lx_em
+    networks:
+      - my_network
+
+  # Database service (PostgreSQL)
+  db:
+    image: postgres:17
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=patent_data
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=sukhreen
+    networks:
+      - my_network
+
+# Volumes
+volumes:
+  postgres_data:
+
+# Networks
+networks:
+  my_network:
+    driver: bridge
