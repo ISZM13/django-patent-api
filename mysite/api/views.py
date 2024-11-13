@@ -46,12 +46,12 @@ class SummaryStatistics(APIView):
 class QueryPatentData(APIView):
     def get(self, request, *args, **kwargs):
         # Generate a cache key based on query parameters
-        cache_key = f"query_patents_{request.get_full_path()}"
-        cached_data = cache.get(cache_key)
+        # cache_key = f"query_patents_{request.get_full_path()}"
+        # cached_data = cache.get(cache_key)
 
-        if cached_data:
-            # Return cached data if available
-            return Response(cached_data, status=status.HTTP_200_OK)
+        # if cached_data:
+        #     # Return cached data if available
+        #     return Response(cached_data, status=status.HTTP_200_OK)
 
         query_params = {}
 
@@ -78,6 +78,6 @@ class QueryPatentData(APIView):
         queryset = Patent.objects.filter(**query_params)
         serializer = PatentSerializer(queryset, many=True)
 
-        cache.set(cache_key, serializer.data, timeout=900)
+        # cache.set(cache_key, serializer.data, timeout=900)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
