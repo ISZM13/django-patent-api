@@ -38,7 +38,6 @@ class SummaryStatistics(APIView):
                 "min": Patent.objects.aggregate(Min('creation_date'))['creation_date__min'],
                 "max": Patent.objects.aggregate(Max('creation_date'))['creation_date__max']
             },
-            # Add more fields as needed
         }
         return Response(summary_data, status=status.HTTP_200_OK)
 
@@ -67,14 +66,13 @@ class QueryPatentData(APIView):
         if assignee:
             query_params['assigne__icontains'] = assignee
 
-        # Validate country_code (length should not be greater than 2 characters)
+        # Validate country_code
         country_code = request.query_params.get('country_code', None)
         if country_code:
             if len(country_code) > 2:
                 raise ValidationError({'country_code': 'Invalid country_code. The length should not exceed 2 characters.'})
             query_params['country_code__iexact'] = country_code
 
-        # If any query parameter exists, filter data
         queryset = Patent.objects.filter(**query_params)
         serializer = PatentSerializer(queryset, many=True)
 

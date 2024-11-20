@@ -78,7 +78,7 @@ pip install -r requirements.txt
 
 ```bash
 cd mysite
-python manage.py load_data  
+python manage.py load_patents  
 ```
 #### 6\. Change DATABASES values in mysite/mysite/settings.py
 From the root folder `django-patent-api`
